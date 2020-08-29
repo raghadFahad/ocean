@@ -1,0 +1,85 @@
+<html>
+<head>
+	<title>ocean game</title>
+	<style type="text/css">
+		.ocean{
+			background-image: url('ocean1.png');
+			width: 100%;
+			height: 100%;
+		}
+		.player{
+			background-image: url('plane.png');
+			height: 65px;
+			width: 65px;
+			position: absolute;
+		}
+		.enemy{
+			background-image: url('enemy.png');
+			height: 65px;
+			width: 65px;
+			position: absolute;
+			transform: rotate(540deg); 
+
+		}
+	</style>
+</head>
+<body>
+
+	<div class="ocean">
+		<div id="player"></div>
+		<div id="enemy"></div>
+	</div>
+	<script type="text/javascript">
+		var player={
+			left: 640,
+			top: 620
+		}
+		var enemies=[
+			{left: 640,top: 200},
+			{left: 740,top: 250},
+			{left: 540,top: 250},
+			{left: 440,top: 200}
+		];
+		function draw_player(){
+			content="<div class='player' style='left:"+player.left+"px; top:"+player.top+"px'></div>";
+			document.getElementById("player").innerHTML= content;
+		}
+		draw_player();
+
+		function draw_enemies() {
+			content="";
+			for(var e=0; e <enemies.length; e++){
+				content +="<div class='enemy' style='left:"+enemies[e].left+"px; top:"+enemies[e].top+"px'></div>";
+			}
+			
+			document.getElementById("enemy").innerHTML= content;
+		
+		}
+		draw_enemies();
+		//onkey function
+		document.onkeydown = function(e){
+			if(e.keyCode == 37 && player.left > 20){//left
+				player.left= player.left - 10;
+
+			}
+			if(e.keyCode == 39 && player.left < 1350){//right
+				player.left= player.left + 10;
+				console.log(player.left);
+
+
+			}
+			if(e.keyCode == 38 && player.top > 490){
+				player.top= player.top - 10;
+
+			}
+			if(e.keyCode == 40 && player.top < 710){
+				player.top= player.top + 10;
+
+			}
+			draw_player();
+
+
+		}
+	</script>
+</body>
+</html>
