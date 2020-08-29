@@ -21,6 +21,14 @@
 			transform: rotate(540deg); 
 
 		}
+		.missile{
+			background-color: green;
+			width: 3px;
+			height: 7px;
+			position: absolute;
+
+
+		}
 	</style>
 </head>
 <body>
@@ -28,8 +36,11 @@
 	<div class="ocean">
 		<div id="player"></div>
 		<div id="enemy"></div>
+		<div id="missile"></div>
+
 	</div>
 	<script type="text/javascript">
+		//variable
 		var player={
 			left: 640,
 			top: 620
@@ -40,12 +51,15 @@
 			{left: 540,top: 250},
 			{left: 440,top: 200}
 		];
+
+		var missiles=[];
+
+		//functions
 		function draw_player(){
 			content="<div class='player' style='left:"+player.left+"px; top:"+player.top+"px'></div>";
 			document.getElementById("player").innerHTML= content;
 		}
-		draw_player();
-
+		//function to draw enemies
 		function draw_enemies() {
 			content="";
 			for(var e=0; e <enemies.length; e++){
@@ -55,7 +69,31 @@
 			document.getElementById("enemy").innerHTML= content;
 		
 		}
-		draw_enemies();
+		//function to draw missiles
+		function draw_missiles(){
+			content="";
+			for(var e=0; e <missiles.length; e++){
+				content +="<div class='missile' style='left:"+missiles[e].left+"px; top:"+missiles[e].top+"px'></div>";
+			}
+			
+			document.getElementById("missile").innerHTML= content;
+		}
+		//Move function
+
+		//function to move the enemies
+		function move_enemies(){
+			for(var e=0; e <enemies.length; e++){
+				enemies[e].top =enemies[e].top + 2;
+			}
+			
+		}
+		//function to move the missiles
+		function move_missiles(){
+			for(var e=0; e <missiles.length; e++){
+				missiles[e].top =missiles[e].top - 4;
+			}
+			
+		}
 		//onkey function
 		document.onkeydown = function(e){
 			if(e.keyCode == 37 && player.left > 20){//left
@@ -64,7 +102,6 @@
 			}
 			if(e.keyCode == 39 && player.left < 1350){//right
 				player.left= player.left + 10;
-				console.log(player.left);
 
 
 			}
@@ -76,10 +113,21 @@
 				player.top= player.top + 10;
 
 			}
+			if(e.keyCode == 32 ){
+				missiles.push({left: (player.left+34), top: (player.top-9)});
+
+			}
 			draw_player();
-
-
 		}
+		function game_loop(){
+			draw_player();
+			move_enemies();
+			draw_enemies();
+			move_missiles();
+			draw_missiles();
+			setTimeout(game_loop,30);
+		}
+		game_loop();
 	</script>
 </body>
 </html>
